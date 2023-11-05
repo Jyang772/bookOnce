@@ -1,28 +1,12 @@
 function searchBookmarks(query) {
   chrome.bookmarks.search(query, function(results) {
     if (results.length > 0) {
-      createNotification(query);
+      //createNotification(query);
       displayBookmarks(results);
     }
   });
 }
-/*
-function displayBookmarks(bookmarks) {
-  var bookmarksElement = document.getElementById('bookmarks');
-  bookmarksElement.innerHTML = ''; // Clear previous results
 
-  bookmarks.forEach(function(bookmark) {
-    var div = document.createElement('div');
-    div.textContent = bookmark.title;
-    div.setAttribute('title', bookmark.url);
-    div.style.cursor = 'pointer';
-    div.onclick = function() {
-      chrome.tabs.create({ url: bookmark.url });
-    };
-    bookmarksElement.appendChild(div);
-  });
-}
-*/
 function displayBookmarks(bookmarks) {
   var bookmarksElement = document.getElementById('bookmarks');
   bookmarksElement.innerHTML = ''; // Clear previous results
