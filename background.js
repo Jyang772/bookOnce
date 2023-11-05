@@ -27,6 +27,7 @@ function searchBookmarks(query) {
   });
 }
 
+/*
 function createNotification(query, count) {
   chrome.storage.local.set({ lastQuery: query }, function() {
     console.log('Query saved.');
@@ -50,5 +51,42 @@ chrome.notifications.onClicked.addListener(function(notificationId) {
       chrome.tabs.create({ url: `chrome://bookmarks/?q=${encodeURIComponent(query)}` });
     });
   }
+});
+*/
+
+
+function createNotification(query, count) {
+  var notificationId = 'bookmarkNotification' + new Date().getTime(); // Unique ID for each notification
+  
+  chrome.notifications.create(notificationId, {
+    title: 'Bookmark Assistant',
+    message: `You have ${count} bookmarks related to: "${query}"`,
+    iconUrl: 'images/alert.jpg',
+    type: 'basic'//,
+    //contextMessage: query
+  }, function(notificationId) {
+    // This callback is called with the ID of the created notification.
+    console.log('Notification created with ID:', notificationId);
+    
+    // Store the query with the notification ID
+    var queryKey = notificationId + ':query';
+    chrome.storage.local.set({ [queryKey]: query }, function() {
+      if (chrome.runtime.lastError) {
+        console.error('Error setting query:', chrome.runtime.lastError);
+      } else {
+        console.log('Query saved for notification ID:', notificationId);
+      }
+    });
+  });
+}
+
+chrome.notifications.onClicked.addListener(function(notificationId) {
+  var queryKey = notificationId + ':query';
+  chrome.storage.local.get([queryKey], function(result) {
+    if (result[queryKey]) {
+      var query = result[queryKey];
+      chrome.tabs.create({ url: `chrome://bookmarks/?q=${encodeURIComponent(query)}` });
+    }
+  });
 });
 
