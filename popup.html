@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bookmark Assistant</title>
+  <style>
+    #bookmarks {
+      font-family: Arial, sans-serif;
+    }
+    .bookmark-item {
+      margin: 5px 0;
+      padding: 5px;
+      border-bottom: 1px solid #ddd; /* adds separation line between bookmarks */
+      cursor: pointer;
+    }
+    .bookmark-item:hover {
+      background-color: #f5f5f5;
+    }
+    /* This will underline the text */
+    .bookmark-item a {
+      text-decoration: underline;
+      color: blue;
+    }
+  </style>
+  <script src="popup.js"></script>
+</head>
+<body>
+  <div id="bookmarks"></div>
+</body>
+</html>
+
